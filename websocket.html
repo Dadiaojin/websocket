@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+	
+</head>
+
+<body onload="load()">
+<textarea name="area" id="area" style="width: 400px;height: 400px;" onChange="answer()"  disabled="disabled" ></textarea>
+<br/>
+	<input type="text" id="text" style="width: 400px;">
+	<input type="button" id="button" onClick="WebSocketTest()" value="发送">
+		
+	
+	<script type="text/javascript">
+		var te=document.getElementById("text");
+		var area=document.getElementById("area");
+		
+		function load(){
+			if("WebSocket" in window){
+			
+			var ws= new WebSocket("ws://www.dadjin.top:2000");
+				
+				ws.onopen = function()
+               {
+                  
+                  ws.send("start");
+                  
+               };
+			ws.onmessage=function(evt){
+				var received_msg = evt.data;
+                  //alert("数据发送成功");
+				  
+				  
+				 area.innerHTML=area.value;
+				  
+			
+				area.innerHTML=area.innerHTML+"Dadjin机器人："+received_msg;
+
+                te.value="";
+				
+				
+			}
+			
+		}
+		}
+		
+		
+	function WebSocketTest(){
+		if("WebSocket" in window){
+			
+			var ws= new WebSocket("ws://www.dadjin.top:2000");
+			
+			
+			
+		 ws.onopen = function()
+               {
+                  
+                  ws.send(te.value);
+                  
+               };
+			ws.onmessage=function(evt){
+				var received_msg = evt.data;
+                  //alert("数据发送成功");
+				  
+				  
+				 area.innerHTML=area.value;
+				  if(area.value==""){
+					  area.innerHTML=area.innerHTML+"我："+te.value;
+					  }else{
+				area.innerHTML=area.innerHTML+"\n\n"+"我："+te.value;}
+			
+				area.innerHTML=area.innerHTML+"\n\n"+"Dadjin机器人："+received_msg;
+
+                te.value="";
+				
+			};
+			 ws.onclose = function()
+               { 
+                  
+                  alert("连接已关闭..."); 
+               };
+		}else{
+			 alert("您的浏览器不支持 WebSocket!");
+		}
+		
+		
+	
+	}
+		
+	
+	</script>
+</body>
+</html>
